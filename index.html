@@ -112,6 +112,43 @@
             color: #555;
         }
 
+        /* Секция перехода */
+        .transition-section {
+            background: linear-gradient(135deg, #8b6f47 0%, #5d4e37 100%);
+            padding: 80px 20px;
+            text-align: center;
+            color: white;
+        }
+
+        .transition-section h2 {
+            color: white;
+            margin-bottom: 20px;
+        }
+
+        .transition-section p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.95;
+        }
+
+        .transition-btn {
+            display: inline-block;
+            padding: 15px 40px;
+            background: white;
+            color: #5d4e37;
+            text-decoration: none;
+            border-radius: 30px;
+            font-weight: 700;
+            font-size: 1.1rem;
+            transition: transform 0.3s, box-shadow 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+        }
+
+        .transition-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+        }
+
         /* Контакты */
         .contact-links {
             display: flex;
@@ -176,6 +213,7 @@
         <ul>
             <li><a href="#about">О проекте</a></li>
             <li><a href="#features">Возможности</a></li>
+            <li><a href="books.html">📚 Библиотека книг</a></li>
             <li><a href="#contact">Контакты</a></li>
         </ul>
     </nav>
@@ -207,6 +245,13 @@
                 <p>Проект полностью открыт — вносите свой вклад и улучшайте его.</p>
             </div>
         </div>
+    </section>
+
+    <!-- Переход на страницу книг -->
+    <section class="transition-section">
+        <h2>📖 Откройте мир литературы</h2>
+        <p>Перейдите в нашу библиотеку книг и найдите свое следующее чтение</p>
+        <a href="books.html" class="transition-btn">Перейти к книгам →</a>
     </section>
 
     <!-- Контакты -->
