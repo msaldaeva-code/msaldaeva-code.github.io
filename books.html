@@ -1,1 +1,475 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<script>
+    (function (window, document, dataLayerName, containerID) {
+        window[dataLayerName] = window[dataLayerName] || [];
+        window[dataLayerName].push({ 'start': new Date().getTime(), event: 'actm-js' });
+        var firstScript = document.getElementsByTagName('script')[0];
+        var script = document.createElement('script');
+        var dl = dataLayerName !== 'acDataLayer' ? '&l=' + dataLayerName : '';
+        script.async = true;
+        script.src = 'https://pxl.demo.altcraft.com/actm/js/actm.js?id=' + containerID + dl;
+        script.type = 'module';
+        if (firstScript && firstScript.parentNode) {
+            firstScript.parentNode.insertBefore(script, firstScript);
+        }
+    }(window, document, 'acDataLayer', 'ATM-6n7PX9R2jeeYY_wAp'));
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Библиотека книг</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', 'Times New Roman', serif;
+            line-height: 1.6;
+            color: #2c2416;
+            background-color: #faf8f5;
+        }
+
+        /* Шапка */
+        header {
+            background: linear-gradient(135deg, #8b6f47 0%, #5d4e37 100%);
+            color: #faf8f5;
+            text-align: center;
+            padding: 80px 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        header::before {
+            content: '📚';
+            position: absolute;
+            font-size: 200px;
+            opacity: 0.1;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 10px;
+            position: relative;
+            z-index: 1;
+        }
+
+        header p {
+            font-size: 1.3rem;
+            opacity: 0.95;
+            font-style: italic;
+            position: relative;
+            z-index: 1;
+        }
+
+        /* Навигация */
+        nav {
+            background: #fff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            gap: 40px;
+            padding: 18px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: #5d4e37;
+            font-weight: 600;
+            transition: color 0.3s;
+            font-size: 1.05rem;
+        }
+
+        nav a:hover {
+            color: #8b6f47;
+        }
+
+        /* Секции */
+        section {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 60px 20px;
+        }
+
+        section h2 {
+            text-align: center;
+            font-size: 2.2rem;
+            margin-bottom: 40px;
+            color: #5d4e37;
+        }
+
+        /* Карточки книг */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 30px;
+        }
+
+        .book-card {
+            background: #fff;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .book-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.18);
+        }
+
+        .book-cover {
+            width: 100%;
+            height: 300px;
+            background: linear-gradient(135deg, #d4a574 0%, #8b6f47 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: #fff;
+        }
+
+        .book-info {
+            padding: 20px;
+        }
+
+        .book-info h3 {
+            color: #5d4e37;
+            margin-bottom: 8px;
+            font-size: 1.2rem;
+        }
+
+        .book-info .author {
+            color: #8b6f47;
+            font-style: italic;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+        }
+
+        .book-info .description {
+            color: #666;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .book-info .rating {
+            margin-top: 10px;
+            color: #f39c12;
+            font-size: 1.1rem;
+        }
+
+        /* Жанры */
+        .genres {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 15px;
+        }
+
+        .genre-tag {
+            background: #8b6f47;
+            color: #fff;
+            padding: 10px 25px;
+            border-radius: 25px;
+            font-size: 1rem;
+            transition: background 0.3s, transform 0.2s;
+            cursor: pointer;
+        }
+
+        .genre-tag:hover {
+            background: #5d4e37;
+            transform: scale(1.05);
+        }
+
+        /* О проекте */
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .about-content p {
+            font-size: 1.15rem;
+            color: #555;
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+
+        .stats {
+            display: flex;
+            justify-content: center;
+            gap: 60px;
+            margin-top: 40px;
+            flex-wrap: wrap;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #8b6f47;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 1rem;
+        }
+
+        /* Подписка */
+        .subscribe {
+            background: #fff;
+            padding: 40px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .subscribe h3 {
+            color: #5d4e37;
+            margin-bottom: 15px;
+            font-size: 1.5rem;
+        }
+
+        .subscribe p {
+            color: #666;
+            margin-bottom: 25px;
+        }
+
+        .subscribe-form {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .subscribe-form input {
+            padding: 12px 20px;
+            border: 2px solid #ddd;
+            border-radius: 25px;
+            font-size: 1rem;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .subscribe-form button {
+            padding: 12px 30px;
+            background: #8b6f47;
+            color: #fff;
+            border: none;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .subscribe-form button:hover {
+            background: #5d4e37;
+        }
+
+        /* Подвал */
+        footer {
+            background: #2c2416;
+            color: #a0aec0;
+            text-align: center;
+            padding: 30px 20px;
+        }
+
+        footer a {
+            color: #d4a574;
+            text-decoration: none;
+        }
+
+        /* Адаптивность */
+        @media (max-width: 768px) {
+            header h1 {
+                font-size: 2rem;
+            }
+
+            header p {
+                font-size: 1rem;
+            }
+
+            nav ul {
+                flex-direction: column;
+                align-items: center;
+                gap: 15px;
+            }
+
+            .stats {
+                gap: 30px;
+            }
+
+            .books-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Шапка -->
+    <header>
+        <h1>📖 Библиотека книг</h1>
+        <p>Откройте для себя мир литературы</p>
+    </header>
+
+    <!-- Навигация -->
+    <nav>
+        <ul>
+            <li><a href="#popular">Популярные книги</a></li>
+            <li><a href="#genres">Жанры</a></li>
+            <li><a href="#about">О проекте</a></li>
+            <li><a href="#subscribe">Подписка</a></li>
+        </ul>
+    </nav>
+
+    <!-- Популярные книги -->
+    <section id="popular">
+        <h2>Популярные книги</h2>
+        <div class="books-grid">
+            <div class="book-card">
+                <div class="book-cover">📕</div>
+                <div class="book-info">
+                    <h3>Война и мир</h3>
+                    <p class="author">Лев Толстой</p>
+                    <p class="description">Эпический роман о жизни русского общества в эпоху наполеоновских войн.</p>
+                    <div class="rating">★★★★★</div>
+                </div>
+            </div>
+
+            <div class="book-card">
+                <div class="book-cover">📗</div>
+                <div class="book-info">
+                    <h3>Мастер и Маргарита</h3>
+                    <p class="author">Михаил Булгаков</p>
+                    <p class="description">Фантастический роман о визите дьявола в Москву 1930-х годов.</p>
+                    <div class="rating">★★★★★</div>
+                </div>
+            </div>
+
+            <div class="book-card">
+                <div class="book-cover">📘</div>
+                <div class="book-info">
+                    <h3>Преступление и наказание</h3>
+                    <p class="author">Фёдор Достоевский</p>
+                    <p class="description">Психологический роман о студенте, совершившем убийство.</p>
+                    <div class="rating">★★★★☆</div>
+                </div>
+            </div>
+
+            <div class="book-card">
+                <div class="book-cover">📙</div>
+                <div class="book-info">
+                    <h3>Анна Каренина</h3>
+                    <p class="author">Лев Толстой</p>
+                    <p class="description">История трагической любви замужней аристократки.</p>
+                    <div class="rating">★★★★★</div>
+                </div>
+            </div>
+
+            <div class="book-card">
+                <div class="book-cover">📕</div>
+                <div class="book-info">
+                    <h3>Евгений Онегин</h3>
+                    <p class="author">Александр Пушкин</p>
+                    <p class="description">Роман в стихах, энциклопедия русской жизни XIX века.</p>
+                    <div class="rating">★★★★★</div>
+                </div>
+            </div>
+
+            <div class="book-card">
+                <div class="book-cover">📗</div>
+                <div class="book-info">
+                    <h3>Идиот</h3>
+                    <p class="author">Фёдор Достоевский</p>
+                    <p class="description">Роман о князе Мышкине и его столкновении с обществом.</p>
+                    <div class="rating">★★★★☆</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Жанры -->
+    <section id="genres">
+        <h2>Жанры</h2>
+        <div class="genres">
+            <span class="genre-tag">Классика</span>
+            <span class="genre-tag">Фантастика</span>
+            <span class="genre-tag">Детективы</span>
+            <span class="genre-tag">Романы</span>
+            <span class="genre-tag">Поэзия</span>
+            <span class="genre-tag">Исторические</span>
+            <span class="genre-tag">Философия</span>
+            <span class="genre-tag">Приключения</span>
+            <span class="genre-tag">Научная литература</span>
+            <span class="genre-tag">Биографии</span>
+        </div>
+    </section>
+
+    <!-- О проекте -->
+    <section id="about">
+        <h2>О проекте</h2>
+        <div class="about-content">
+            <p>
+                Наша библиотека — это место, где каждый может найти книгу по душе.
+                Мы собираем лучшие произведения мировой литературы и делаем их доступными для всех.
+            </p>
+            <p>
+                Присоединяйтесь к нашему сообществу книголюбов и открывайте новые горизонты вместе с нами!
+            </p>
+            <div class="stats">
+                <div class="stat-item">
+                    <div class="stat-number">1000+</div>
+                    <div class="stat-label">Книг</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">500+</div>
+                    <div class="stat-label">Авторов</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">50+</div>
+                    <div class="stat-label">Жанров</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Подписка -->
+    <section id="subscribe">
+        <div class="subscribe">
+            <h3>📬 Подпишитесь на новинки</h3>
+            <p>Получайте уведомления о новых книгах и рекомендациях</p>
+            <form class="subscribe-form" onsubmit="event.preventDefault(); alert('Спасибо за подписку!');">
+                <input type="email" placeholder="Ваш email" required>
+                <button type="submit">Подписаться</button>
+            </form>
+        </div>
+    </section>
+
+    <!-- Подвал -->
+    <footer>
+        <p>&copy; 2026 Библиотека книг · Размещено на <a href="https://pages.github.com" target="_blank">GitHub Pages</a></p>
+    </footer>
+
+</body>
+</html>
 
